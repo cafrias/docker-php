@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  app:
+    build: ./5.6
+    tty: true
+    volumes:
+      - ../:/usr/src/app
+    working_dir: /usr/src/app
+    depends_on:
+      - db
+    user: ${UID:-1000}
+    links:
+      - db
+    environment:
+      XDEBUG_CONFIG: remote_port=9001 remote_host=${DOCKER_HOST:-172.17.0.1}
+  db:
+    image: mysql:5.7
+    volumes:
+      - app_db:/var/lib/mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "db"
+
+volumes:
+  app_db:
