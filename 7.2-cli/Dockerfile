@@ -1,4 +1,4 @@
-FROM php:5.6-cli
+FROM php:7.2-cli
 
 LABEL maintainer="carlos.a.frias@gmail.com"
 
@@ -10,11 +10,12 @@ RUN apt-get update && apt-get install -y \
 
 # Install PHP Extensions
 RUN docker-php-ext-install \
-  mcrypt \
   pcntl \
   zip \
   pdo pdo_mysql \
-  && pecl install xdebug-2.5.5 \
+  && pecl install \
+  xdebug-2.6.1 \
+  mcrypt \
   && docker-php-ext-enable xdebug
 
 # Configure Xdebug
@@ -31,3 +32,5 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
   && php -r "unlink('composer-setup.php');" \
   && mv composer.phar /usr/local/bin/composer
 RUN mkdir /.composer -m 777
+
+CMD [ "php", "-v" ]
