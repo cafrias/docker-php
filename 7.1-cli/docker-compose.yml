@@ -11,8 +11,6 @@ services:
     user: ${UID:-1000}
     links:
       - db
-    environment:
-      XDEBUG_CONFIG: remote_port=9001 remote_host=${DOCKER_HOST:-172.17.0.1}
   db:
     image: mysql:5.7
     volumes:

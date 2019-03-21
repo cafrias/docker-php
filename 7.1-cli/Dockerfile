@@ -13,22 +13,13 @@ RUN docker-php-ext-install \
   mcrypt \
   pcntl \
   zip \
-  pdo pdo_mysql \
-  && pecl install xdebug-2.6.1 \
-  && docker-php-ext-enable xdebug
+  pdo pdo_mysql
 
 # Install SOAP and PHP SOAP extension
 RUN apt-get install -y \
   libxml2-dev \
   && apt-get clean -y \
   && docker-php-ext-install soap
-
-# Configure Xdebug
-ARG XDEBUG_INI=/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.default_enable = off" >> ${XDEBUG_INI} \
-  && echo "xdebug.remote_enable = on" >> ${XDEBUG_INI} \
-  && echo "xdebug.remote_autostart = off" >> ${XDEBUG_INI} \
-  && echo "xdebug.remote_connect_back = off" >> ${XDEBUG_INI}
 
 # Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
